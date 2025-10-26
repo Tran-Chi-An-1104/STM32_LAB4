@@ -19,7 +19,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "scheduler.h"
+#include "software_timer.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -56,7 +57,30 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void Task1_Run(void) {
+    // Task chạy mỗi 0.5s
+    HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin); // Ví dụ: PA5
+}
 
+void Task2_Run(void) {
+    // Task chạy mỗi 1s
+    HAL_GPIO_TogglePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin); // Ví dụ: PA6
+}
+
+void Task3_Run(void) {
+    // Task chạy mỗi 1.5s
+    HAL_GPIO_TogglePin(LED_RED_3_GPIO_Port, LED_RED_3_Pin); // Ví dụ: PA7
+}
+
+void Task4_Run(void) {
+    // Task chạy mỗi 2s
+    HAL_GPIO_TogglePin(LED_RED_4_GPIO_Port, LED_RED_4_Pin); // Ví dụ: PA8
+}
+
+void Task5_Run(void) {
+    // Task chạy mỗi 2.5s
+    HAL_GPIO_TogglePin(LED_RED_5_GPIO_Port, LED_RED_5_Pin); // Ví dụ: PA9
+}
 /* USER CODE END 0 */
 
 /**
@@ -91,13 +115,28 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim2);
   /* USER CODE END 2 */
+  SCH_Init();
 
+  // Task 1: chạy sau 0ms, chu kỳ 0.5s
+  SCH_Add_Task(Task1_Run, 0, 50);
+
+  // Task 2: chạy sau 1s, chu kỳ 1s (để các task không bị trùng nhau ngay lập tức)
+  SCH_Add_Task(Task2_Run, 100, 100);
+
+  // Task 3: chạy sau 2s, chu kỳ 1.5s
+  SCH_Add_Task(Task3_Run, 200, 150);
+
+  // Task 4: chạy sau 3s, chu kỳ 2s
+  SCH_Add_Task(Task4_Run, 300, 200);
+
+  // Task 5: chạy sau 4s, chu kỳ 2.5s
+  SCH_Add_Task(Task5_Run, 400, 250);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  SCH_Dispatch_Tasks();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -196,20 +235,25 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin|LED_RED_2_Pin|LED_RED_3_Pin|LED_RED_4_Pin
+                          |LED_RED_5_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LED_RED_Pin */
-  GPIO_InitStruct.Pin = LED_RED_Pin;
+  /*Configure GPIO pins : LED_RED_1_Pin LED_RED_2_Pin LED_RED_3_Pin LED_RED_4_Pin
+                           LED_RED_5_Pin */
+  GPIO_InitStruct.Pin = LED_RED_1_Pin|LED_RED_2_Pin|LED_RED_3_Pin|LED_RED_4_Pin
+                          |LED_RED_5_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-
+	if(htim->Instance == TIM2){
+		SCH_Update();
+	}
 }
 /* USER CODE END 4 */
 
