@@ -19,11 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "scheduler.h"
-#include "seven_segment.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+//#include "scheduler.h"
+#include "scheduler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -76,6 +76,10 @@ void Task4_Run(void) {
 void Task5_Run(void) {
     HAL_GPIO_TogglePin(LED_RED_5_GPIO_Port, LED_RED_5_Pin);
 }
+
+void Task6_Run(void) {
+    HAL_GPIO_TogglePin(LED_RED_6_GPIO_Port, LED_RED_6_Pin);
+}
 /* USER CODE END 0 */
 
 /**
@@ -91,18 +95,21 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 	HAL_Init();
 	SCH_Add_Task(Task1_Run, 0, 50);
 
-	SCH_Add_Task(Task2_Run, 100, 100);
+	SCH_Add_Task(Task2_Run, 1, 100);
 
-	SCH_Add_Task(Task3_Run, 200, 150);
+	SCH_Add_Task(Task3_Run, 2, 150);
 
-	SCH_Add_Task(Task4_Run, 300, 200);
+	SCH_Add_Task(Task4_Run, 3, 200);
 
-	SCH_Add_Task(Task5_Run, 400, 250);
+	SCH_Add_Task(Task5_Run, 4, 250);
+	//one-shot
+	SCH_Add_Task(Task6_Run, 500, 0);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -118,12 +125,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
 	  SCH_Dispatch_Tasks();
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -224,16 +233,16 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin|LED_RED_2_Pin|LED_RED_3_Pin|LED_RED_4_Pin
-                          |LED_RED_5_Pin|EN01_Pin, GPIO_PIN_RESET);
+                          |LED_RED_5_Pin|EN01_Pin|LED_RED_6_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, A_Pin|B_Pin|C_Pin|D_Pin
                           |E_Pin|F_Pin|G_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED_RED_1_Pin LED_RED_2_Pin LED_RED_3_Pin LED_RED_4_Pin
-                           LED_RED_5_Pin EN01_Pin */
+                           LED_RED_5_Pin EN01_Pin LED_RED_6_Pin */
   GPIO_InitStruct.Pin = LED_RED_1_Pin|LED_RED_2_Pin|LED_RED_3_Pin|LED_RED_4_Pin
-                          |LED_RED_5_Pin|EN01_Pin;
+                          |LED_RED_5_Pin|EN01_Pin|LED_RED_6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -252,7 +261,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-		SCH_Update();
+	SCH_Update();
 }
 /* USER CODE END 4 */
 

@@ -24,7 +24,7 @@ const GPIO_PinState segmentMap[10][7] = {
 
 //int led_buffer[4] = {0,0,0,0};
 
-static void display7SEG(int num) {
+void display7SEG(int num) {
     if (num < 0 || num > 9) return;
     HAL_GPIO_WritePin(A_GPIO_Port, A_Pin, segmentMap[num][0]);
     HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, segmentMap[num][1]);
@@ -35,6 +35,15 @@ static void display7SEG(int num) {
     HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, segmentMap[num][6]);
 }
 
+void turnOff7SEG(){
+	HAL_GPIO_WritePin(A_GPIO_Port, A_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(C_GPIO_Port, C_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(D_GPIO_Port, D_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(F_GPIO_Port, F_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_SET);
+}
 /*static void display7SEG_Group2(int num) {
     if (num < 0 || num > 9) return;
     HAL_GPIO_WritePin(a2_GPIO_Port, a2_Pin, segmentMap[num][0]);

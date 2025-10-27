@@ -8,8 +8,11 @@
 #ifndef INC_SEVEN_SEGMENT_H_
 #define INC_SEVEN_SEGMENT_H_
 
+#include "main.h"
 
-void update_led_buffer(int time);
+void display7SEG(int num);
+void turnOff7SEG();
+//void update_led_buffer(int time);
 //void update_led_buffer2(int time);
 //void seven_segment_scan();
 

@@ -3,14 +3,15 @@
  *
  *  Created on: Oct 26, 2025
  *      Author: Asus
- */
+*/
 #include "scheduler.h"
 #include "seven_segment.h"
+#include "main.h"
+
 static sTasks SCH_tasks_G[SCH_MAX_TASKS];
 uint8_t current_index_task = 0;
 
 uint8_t SCH_Delete_Task(uint32_t taskID) {
-
     if (taskID >= SCH_MAX_TASKS) {
         return 0;
     }
@@ -25,6 +26,7 @@ uint8_t SCH_Delete_Task(uint32_t taskID) {
     SCH_tasks_G[taskID].RunMe = 0;
     return 1;
 }
+
 
 void SCH_Init(void) {
     uint8_t i;
@@ -68,15 +70,17 @@ void SCH_Update(void) {
     }
 }
 
-    void SCH_Dispatch_Tasks(void) {
-        unsigned char Index;
-        for (Index = 0; Index < SCH_MAX_TASKS; Index++) {
-            if (SCH_tasks_G[Index].RunMe > 0) {
-                (*SCH_tasks_G[Index].pTask)();
-                SCH_tasks_G[Index].RunMe -= 1;
-                if (SCH_tasks_G[Index].Period == 0) {
-                    SCH_Delete_Task(Index);
-                }
-            }
-        }
-    }
+void SCH_Dispatch_Tasks(void) {
+	unsigned char Index;
+	for (Index = 0; Index < SCH_MAX_TASKS; Index++) {
+		if (SCH_tasks_G[Index].RunMe > 0) {
+			(*SCH_tasks_G[Index].pTask)();
+			SCH_tasks_G[Index].RunMe -= 1;
+			if (SCH_tasks_G[Index].Period == 0) {
+				SCH_Delete_Task(Index);
+			}
+		}
+	}
+}
+
+
