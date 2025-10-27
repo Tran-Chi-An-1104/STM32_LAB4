@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 //#include "scheduler.h"
-#include "scheduler.h"
+#include "scheduler_o1.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
