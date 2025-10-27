@@ -57,4 +57,4 @@ void SCH_Dispatch_Tasks(void);
 uint8_t SCH_Delete_Task(uint32_t taskID);
 
 
-#endif /* HEHE_SCHEDULER_O1_H_ */
+#endif /* INC_SCHEDULER_O1_H_ */

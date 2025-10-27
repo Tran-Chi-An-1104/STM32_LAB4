@@ -98,18 +98,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	HAL_Init();
-	SCH_Add_Task(Task1_Run, 0, 50);
 
-	SCH_Add_Task(Task2_Run, 1, 100);
-
-	SCH_Add_Task(Task3_Run, 2, 150);
-
-	SCH_Add_Task(Task4_Run, 3, 200);
-
-	SCH_Add_Task(Task5_Run, 4, 250);
-	//one-shot
-	SCH_Add_Task(Task6_Run, 500, 0);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -123,7 +112,21 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim2);
+  SCH_Init();
+
+  SCH_Add_Task(Task1_Run, 0, 50);
+
+  SCH_Add_Task(Task2_Run, 1, 100);
+
+	SCH_Add_Task(Task3_Run, 2, 150);
+
+	SCH_Add_Task(Task4_Run, 3, 200);
+
+	SCH_Add_Task(Task5_Run, 4, 250);
+	//one-shot
+	SCH_Add_Task(Task6_Run, 500, 0);
+
+	  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
