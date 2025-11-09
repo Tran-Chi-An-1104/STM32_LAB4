@@ -48,7 +48,7 @@ TIM_HandleTypeDef htim2;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-volatile uint32_t g_system_time_ms = 0;
+volatile uint32_t g_system_time_ms = -10;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,27 +76,39 @@ void Task_Print_Time(void) {
     HAL_UART_Transmit(&huart1, (uint8_t*)tx_buffer, strlen(tx_buffer), 100);
 }
 
+void print_log(const char* message) {
+    char tx_buffer[100];
+    sprintf(tx_buffer, "[%lu] %s\r\n", get_time(), message);
+    HAL_UART_Transmit(&huart1, (uint8_t*)tx_buffer, strlen(tx_buffer), 100);
+}
+
 void Task1_Run(void) {
-    HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin);
+	//print_log("Task 1 - Run");
+	HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin);
 }
 
 void Task2_Run(void) {
+	//print_log("Task 2 - Run");
     HAL_GPIO_TogglePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin);
 }
 
 void Task3_Run(void) {
+	//print_log("Task 3 - Run");
     HAL_GPIO_TogglePin(LED_RED_3_GPIO_Port, LED_RED_3_Pin);
 }
 
 void Task4_Run(void) {
+	//print_log("Task 4 - Run");
     HAL_GPIO_TogglePin(LED_RED_4_GPIO_Port, LED_RED_4_Pin);
 }
 
 void Task5_Run(void) {
+	//print_log("Task 5 - Run");
     HAL_GPIO_TogglePin(LED_RED_5_GPIO_Port, LED_RED_5_Pin);
 }
 
 void Task6_Run(void) {
+	print_log("Task 6 - Run");
     HAL_GPIO_TogglePin(LED_RED_6_GPIO_Port, LED_RED_6_Pin);
 }
 /* USER CODE END 0 */
@@ -117,8 +129,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	  HAL_Init();
-	  SystemClock_Config();
 
   /* USER CODE END Init */
 
@@ -148,7 +158,7 @@ int main(void)
 	//one-shot
 	SCH_Add_Task(Task6_Run, 500, 0);
 
-	SCH_Add_Task(Task_Print_Time, 10, 100);
+	SCH_Add_Task(Task_Print_Time, 0, 50);
 	  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 

@@ -6,7 +6,7 @@
  </FRAME>
  <MODULE name="VSMDEBUG">
   <PWI>
-   <POPUP w="1474" x="-120" flags="00000002" y="815" h="760" pid="0" iid="-1">
+   <POPUP w="1474" x="0" flags="00000002" y="756" h="760" pid="0" iid="-1">
     <PROPERTIES>
      <ITEM name="Message Column Width">1200</ITEM>
      <ITEM name="ShowGrid">No</ITEM>
@@ -32,7 +32,7 @@
      <ITEM name="nItems">0</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="703" x="478" flags="00000022" y="680" h="413" pid="0" iid="9">
+   <POPUP w="703" x="792" flags="00008023" y="806" h="413" pid="0" iid="9">
     <PROPERTIES>
      <ITEM name="AutoEcho">0</ITEM>
      <ITEM name="HexMode">0</ITEM>
@@ -340,13 +340,15 @@
    </POPUP>
    <POPUP w="600" x="572" flags="0000002b" y="835" h="400" pid="100" iid="1">
     <PROPERTIES>
+     <ITEM name="Breakpoint 0">"",8000524,0000,B2F6,8224,1666919336
+</ITEM>
      <ITEM name="CaseSensitive">No</ITEM>
      <ITEM name="DISPADDRS">Yes</ITEM>
      <ITEM name="DISPLNUMS">No</ITEM>
      <ITEM name="DISPOPCODES">No</ITEM>
      <ITEM name="FIXUPBPTS">Yes</ITEM>
      <ITEM name="WordsOnly">No</ITEM>
-     <ITEM name="nBreakpoints">0</ITEM>
+     <ITEM name="nBreakpoints">1</ITEM>
     </PROPERTIES>
    </POPUP>
    <POPUP w="300" x="229" flags="0000000b" y="888" h="300" pid="101" iid="1">
